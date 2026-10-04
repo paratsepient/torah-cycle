@@ -1,11 +1,12 @@
 ---
 import {articleUrl} from '../lib/content';
 const { entry, all } = Astro.props;
-const cycle = all.filter((e:any)=>e.data.cycleYear===entry.data.cycleYear);
+const cycle = all.filter((e:any)=>e.data.cycleYear===entry.data.cycleYear && e.data.published);
 const index = cycle.findIndex((e:any)=>e.id===entry.id);
-const previous=cycle[index-1], next=cycle[index+1];
+const previous = index > 0 ? cycle[index-1] : undefined;
+const next = index >= 0 ? cycle[index+1] : undefined;
 ---
 <nav class="parasha-nav" aria-label="Навігація між матеріалами">
- {previous ? <a href={articleUrl(previous,all)}><span class="label">Попередня</span><strong>{previous.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{previous.data.hebrew}</span></a> : <div><span class="label">Початок циклу</span><strong>Берешит</strong></div>}
- {next ? <a href={articleUrl(next,all)}><span class="label">Наступна</span><strong>{next.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{next.data.hebrew}</span>{!next.data.published && <span class="soon-badge">Скоро</span>}</a> : <div><span class="label">Далі у циклі</span><strong>Продовження готується.</strong></div>}
+ {previous ? <a class="parasha-nav-card parasha-nav-previous" href={articleUrl(previous,all)} aria-label={`Попередня глава: ${previous.data.title}`}><svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg><span class="nav-copy"><span class="label">Попередня</span><strong>{previous.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{previous.data.hebrew}</span></span></a> : <div class="parasha-nav-card parasha-nav-previous is-disabled" aria-disabled="true"><svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg><span class="nav-copy"><span class="label">Попередня</span><strong>Початок циклу</strong></span></div>}
+ {next ? <a class="parasha-nav-card parasha-nav-next" href={articleUrl(next,all)} aria-label={`Наступна глава: ${next.data.title}`}><span class="nav-copy"><span class="label">Наступна</span><strong>{next.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{next.data.hebrew}</span></span><svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a> : <div class="parasha-nav-card parasha-nav-next is-disabled" aria-disabled="true"><span class="nav-copy"><span class="label">Наступна</span><strong>Готується</strong><span class="nav-status">Нова глава з’явиться тут</span></span><svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></div>}
 </nav>
