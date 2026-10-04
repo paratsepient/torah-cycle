@@ -13,7 +13,13 @@ const years: number[] = [...new Set<number>(all.map((e: any)=>e.data.cycleYear))
  const entries = all.filter((e:any)=>e.data.cycleYear===year && e.data.bookOrder===index+1);
  return <details name={`books-${year}`} open={index+1===entry.data.bookOrder}>
  <summary><span class="book-no">{String(index+1).padStart(2,'0')}</span><span><strong>{book.title}</strong><span class="hebrew" lang="he" dir="rtl">{book.hebrew}</span><small>{entries.filter((e:any)=>e.data.published).length} / {book.count} матеріалів</small></span><span class="chevron" aria-hidden="true">+</span></summary>
- <div class="chapters">{entries.length ? entries.map((e:any)=><a href={articleUrl(e,all)} class:list={{"upcoming-chapter":!e.data.published}} aria-current={e.id===entry.id?'page':undefined}><span class="chapter-index">{String(e.data.parashaOrder).padStart(2,'0')}</span><span>{e.data.title}</span>{!e.data.published ? <small>Скоро</small> : e.id===now?.id && <small>Зараз</small>}</a>) : <p class="empty-book">Матеріали цієї книги готуються.</p>}</div></details>;
+ <div class="chapters" role="list">{Array.from({length:book.count},(_,offset)=>{
+ const order=offset+1;
+ const item=entries.find((e:any)=>e.data.parashaOrder===order);
+ if(item?.data.published) return <a role="listitem" href={articleUrl(item,all)} aria-current={item.id===entry.id?'page':undefined}><span class="chapter-index">{String(order).padStart(2,'0')}</span><span class="chapter-title">{item.data.title}</span>{item.id===now?.id && <small>Зараз</small>}</a>;
+ const title=item?.data.title ?? `Глава ${String(order).padStart(2,'0')}`;
+ return <div class="chapter-row is-locked" role="listitem" aria-label={`${title}, скоро буде доступна`}><span class="chapter-index">{String(order).padStart(2,'0')}</span><span class="chapter-title">{title}</span><svg class="chapter-lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/></svg><small>Скоро</small></div>;
+})}</div></details>;
  })}</div>)}</nav>
  <div class="drawer-foot">П’ять книг. Один річний цикл.</div>
 </dialog>
