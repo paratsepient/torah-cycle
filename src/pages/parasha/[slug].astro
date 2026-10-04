@@ -1,0 +1,10 @@
+---
+import ParashaLayout from '../../layouts/ParashaLayout.astro';
+import { allPublished, latestYear } from '../../lib/content';
+export async function getStaticPaths() {
+ const all=await allPublished(); const year=latestYear(all);
+ return all.filter(e=>e.data.cycleYear===year).map(entry=>({params:{slug:entry.data.slug},props:{entry,all}}));
+}
+const {entry,all}=Astro.props;
+---
+<ParashaLayout entry={entry} all={all}/>

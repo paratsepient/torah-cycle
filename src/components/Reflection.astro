@@ -1,0 +1,4 @@
+---
+const { questions } = Astro.props;
+---
+<section class="reflection" aria-labelledby="reflection-title"><span class="reflection-hebrew" aria-hidden="true" lang="he" dir="rtl">מחשבה</span><div><h2 id="reflection-title" class="label">Для роздумів</h2><ol>{questions.map((q:string)=><li>{q}</li>)}</ol></div></section>

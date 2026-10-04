@@ -1,0 +1,38 @@
+---
+import { render } from 'astro:content';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import ArchiveDrawer from '../components/ArchiveDrawer.astro';
+import Reflection from '../components/Reflection.astro';
+import ParashaNavigation from '../components/ParashaNavigation.astro';
+import Footer from '../components/Footer.astro';
+import { url, articleUrl } from '../lib/content';
+import '../styles/global.css';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/cyrillic-400.css';
+import '@fontsource/manrope/latin-500.css';
+import '@fontsource/manrope/cyrillic-500.css';
+import '@fontsource/source-serif-4/latin-400.css';
+import '@fontsource/source-serif-4/cyrillic-400.css';
+import '@fontsource/noto-serif-hebrew/hebrew-400.css';
+const {entry, all} = Astro.props;
+const d = entry.data;
+const {Content} = await render(entry);
+const canonical = new URL(articleUrl(entry,all),Astro.site);
+const og = new URL(url(`/images/parashot/${d.cycleYear}/${d.slug}/og.jpg`),Astro.site);
+const title = `${d.title} — тижнева глава Тори | Цикл Тори`;
+---
+<!doctype html><html lang="uk"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#090a08"/><title>{title}</title><meta name="description" content={d.essence}/><link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('favicon.svg')}/><link rel="sitemap" href={url('sitemap-index.xml')}/>
+<meta property="og:type" content="article"/><meta property="og:locale" content="uk_UA"/><meta property="og:site_name" content="Цикл Тори"/><meta property="og:title" content={title}/><meta property="og:description" content={d.essence}/><meta property="og:url" content={canonical}/><meta property="og:image" content={og}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content={`${d.title} — ${d.hebrew} | Цикл Тори`}/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={d.essence}/><meta name="twitter:image" content={og}/>
+<link rel="preload" as="image" href={url(d.heroImage)} imagesrcset={`${url(d.heroImage.replace('cover.webp','cover-640.webp'))} 640w, ${url(d.heroImage.replace('cover.webp','cover-960.webp'))} 960w, ${url(d.heroImage)} 1800w`} imagesizes="(max-width: 760px) 100vw, 72vw"/>
+</head><body id="top"><a class="skip-link" href="#reading">Перейти до матеріалу</a><main><div class="cover-shell"><Header year={d.cycleYear}/><Hero entry={entry}/></div>
+<article id="reading" class="article-shell" aria-label={`Матеріал: ${d.title}`}><div class="article-top"><span class="label">Думка тижня</span><span class="label">{d.book} / {String(d.parashaOrder).padStart(2,'0')}</span></div>
+<div class="reading-strip"><span class="label">Читаємо</span><a href={d.readingUrl} target="_blank" rel="noopener noreferrer">{d.reading} ↗<span class="sr-only"> — текст івритом та переклади, відкриється в новій вкладці</span></a></div>
+<div class="prose"><Content/></div><Reflection questions={d.reflectionQuestions}/><ParashaNavigation entry={entry} all={all}/></article></main><Footer/><ArchiveDrawer all={all} entry={entry}/>
+<script>
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+ const observer = new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('revealed');observer.unobserve(entry.target);}}},{threshold:.1});
+ document.querySelectorAll('.prose h2,.prose blockquote,.reflection').forEach(el=>{el.classList.add('will-reveal');observer.observe(el);});
+ }
+</script>
+</body></html>

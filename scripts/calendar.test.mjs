@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {selectCurrent,kyivToday} from '../src/lib/calendar.mjs';
+const e=(slug,date,options={})=>({id:slug,data:{slug,gregorianDate:date,published:true,draft:false,...options}});
+const items=[e('bereshit','2026-10-10'),e('noach','2026-10-17'),e('lech-lecha','2026-10-24')];
+test('Sunday starts next reading week; Saturday stays current',()=>{assert.equal(selectCurrent(items,'2026-10-10').id,'bereshit');assert.equal(selectCurrent(items,'2026-10-11').id,'noach');});
+test('before first and after last retain accessible material',()=>{assert.equal(selectCurrent(items,'2026-09-01').id,'bereshit');assert.equal(selectCurrent(items,'2027-01-01').id,'lech-lecha');});
+test('drafts and unpublished material never become current',()=>{const list=[items[0],e('draft','2026-10-17',{draft:true}),e('hidden','2026-10-24',{published:false})];assert.equal(selectCurrent(list,'2026-10-12').id,'bereshit');assert.equal(selectCurrent([]),undefined);});
+test('holiday gap uses last published reading, explicit activeFrom overrides default',()=>{const list=[items[0],e('later','2026-10-31')];assert.equal(selectCurrent(list,'2026-10-20').id,'bereshit');list[1].data.activeFrom='2026-10-18';assert.equal(selectCurrent(list,'2026-10-20').id,'later');});
+test('Kyiv date handles midnight and winter time',()=>{assert.equal(kyivToday(new Date('2026-10-03T21:30:00Z')),'2026-10-04');assert.equal(kyivToday(new Date('2026-12-01T22:30:00Z')),'2026-12-02');});
+test('cycle boundary selects new year only when its week begins',()=>{const list=[e('end','2027-09-25'),e('new','2027-10-30')];assert.equal(selectCurrent(list,'2027-10-01').id,'end');assert.equal(selectCurrent(list,'2027-10-24').id,'new');});

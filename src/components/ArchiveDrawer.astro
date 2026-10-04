@@ -1,0 +1,29 @@
+---
+import { books, articleUrl, current } from '../lib/content';
+const { all, entry } = Astro.props;
+const now = current(all);
+const years: number[] = [...new Set<number>(all.map((e: any)=>e.data.cycleYear))].sort((a,b)=>b-a);
+---
+<dialog id="archive" class="drawer" aria-labelledby="archive-title">
+ <div class="drawer-head"><div><span class="label">Архів циклу</span><h2 id="archive-title">{entry.data.cycleYear}</h2></div><button class="close-archive" aria-label="Закрити архів">×</button></div>
+ {years.length>1 && <label class="year-select">Рік <select aria-label="Рік циклу">{years.map(year=><option value={year} selected={year===entry.data.cycleYear}>{year}</option>)}</select></label>}
+ {now && <a class="current-link" href={articleUrl(now,all)}><span class="label">Зараз читаємо</span><span>{now.data.title}</span><span class="hebrew" lang="he" dir="rtl">{now.data.hebrew}</span></a>}
+ <nav aria-label="Глави за книгами" class="archive-books">{years.map(year=><div data-year={year} hidden={year!==entry.data.cycleYear}>
+ {books.map((book,index)=>{
+ const entries = all.filter((e:any)=>e.data.cycleYear===year && e.data.bookOrder===index+1);
+ return <details name={`books-${year}`} open={index+1===entry.data.bookOrder}>
+ <summary><span class="book-no">{String(index+1).padStart(2,'0')}</span><span><strong>{book.title}</strong><span class="hebrew" lang="he" dir="rtl">{book.hebrew}</span><small>{entries.length} / {book.count} матеріалів</small></span><span class="chevron" aria-hidden="true">+</span></summary>
+ <div class="chapters">{entries.length ? entries.map((e:any)=><a href={articleUrl(e,all)} aria-current={e.id===entry.id?'page':undefined}><span class="chapter-index">{String(e.data.parashaOrder).padStart(2,'0')}</span><span>{e.data.title}</span>{e.id===now?.id && <small>Зараз</small>}</a>) : <p class="empty-book">Матеріали цієї книги готуються.</p>}</div></details>;
+ })}</div>)}</nav>
+ <div class="drawer-foot">П’ять книг. Один річний цикл.</div>
+</dialog>
+<script>
+ const drawer = document.querySelector<HTMLDialogElement>('#archive')!;
+ const trigger = document.querySelector<HTMLButtonElement>('[data-open-archive]')!;
+ let restore: HTMLElement | null = null;
+ trigger.addEventListener('click', ()=>{restore=document.activeElement as HTMLElement;drawer.showModal();document.body.classList.add('menu-open');trigger.setAttribute('aria-expanded','true');});
+ drawer.querySelector('.close-archive')?.addEventListener('click',()=>drawer.close());
+ drawer.addEventListener('click',e=>{if(e.target===drawer){const b=drawer.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)drawer.close();}});
+ drawer.addEventListener('close',()=>{document.body.classList.remove('menu-open');trigger.setAttribute('aria-expanded','false');restore?.focus();});
+ drawer.querySelector('select')?.addEventListener('change',e=>{const year=(e.target as HTMLSelectElement).value;drawer.querySelectorAll<HTMLElement>('[data-year]').forEach(el=>el.hidden=el.dataset.year!==year);drawer.querySelector('#archive-title')!.textContent=year;});
+</script>

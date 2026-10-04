@@ -1,0 +1,8 @@
+---
+import ParashaLayout from '../layouts/ParashaLayout.astro';
+import { allPublished, current } from '../lib/content';
+const all = await allPublished();
+const entry = current(all);
+if (!entry) throw new Error('Опублікуйте хоча б одну парашу.');
+---
+<ParashaLayout entry={entry} all={all} home />

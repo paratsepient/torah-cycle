@@ -1,0 +1,6 @@
+---
+import { url } from '../lib/content';
+const { year } = Astro.props;
+---
+<header class="site-header"><a class="brand" href={url()} aria-label="Цикл Тори — головна"><span aria-hidden="true">◇</span> ЦИКЛ ТОРИ</a>
+<button class="archive-trigger" data-open-archive aria-controls="archive" aria-haspopup="dialog" aria-expanded="false">АРХІВ {year} <span aria-hidden="true">↗</span></button></header>

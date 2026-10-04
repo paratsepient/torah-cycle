@@ -1,0 +1,7 @@
+---
+import ParashaLayout from '../../../../layouts/ParashaLayout.astro';
+import { allPublished } from '../../../../lib/content';
+export async function getStaticPaths() {const all=await allPublished();return all.map(entry=>({params:{year:String(entry.data.cycleYear),slug:entry.data.slug},props:{entry,all}}));}
+const {entry,all}=Astro.props;
+---
+<ParashaLayout entry={entry} all={all}/>
