@@ -32,3 +32,36 @@ body.reader-open{overflow:hidden}.brand .menorah{width:30px;height:36px;color:va
 
 /* Quiet SVG controls and the four-part weekly edition. */
 .ui-icon{width:16px;height:16px;flex-shrink:0;display:inline-block;vertical-align:middle}.reading-strip a{gap:8px}.site-footer>a:last-child{gap:8px}.close-archive,.reader-close{width:44px;height:44px;border:0;background:transparent;box-shadow:none;border-radius:12px;display:grid;place-items:center;padding:0;color:#c8c4bc;outline:none}.close-archive svg,.reader-close svg{width:16px;height:16px}.close-archive:focus-visible,.reader-close:focus-visible{outline:1px solid #c6a57380;outline-offset:0}.close-archive:hover,.reader-close:hover{background:#ffffff07;border:0}.reader-toolbar{padding-top:14px;padding-bottom:14px}.reader .prose h2{font-family:Manrope,sans-serif;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;line-height:1.6;color:var(--accent);margin-top:3rem}.reader .prose h2:first-child{margin-top:0}.reader .prose h2:first-child+p{font-size:1.5rem;line-height:1.6;color:var(--ink)}.reader .prose strong{font-weight:600;color:var(--ink)}.tradition-source{font: .75rem/1.7 Manrope,sans-serif;color:var(--muted);margin-top:2rem}.tradition-source a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}.reflection h2{font-size:.8rem;letter-spacing:.12em}.soon-badge{font: .75rem Manrope,sans-serif;color:var(--accent);padding:5px 10px;border-radius:999px;background:#c6a57310;align-self:flex-end}.upcoming-chapter{color:var(--muted)}.upcoming-chapter small{color:var(--muted);background:#ffffff05}.soon-page{min-height:100svh;background:radial-gradient(ellipse at 50% 50%,#c6a5730c,transparent 65%)}.soon-content{max-width:700px;margin:clamp(5rem,14svh,10rem) auto 0;padding:24px;text-align:center}.soon-content h1{font-family:'Source Serif 4',serif;font-size:clamp(3rem,10vw,6rem);font-weight:400;letter-spacing:-.04em;margin:1.2rem 0}.soon-content .hebrew{font-size:2rem;color:var(--muted)}.soon-content p{font:1rem Manrope,sans-serif;letter-spacing:.12em;color:var(--accent);margin:2.5rem 0}.soon-return{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border:1px solid var(--glass-border);border-radius:14px;font-size:.85rem;background:#ffffff05}.soon-return:hover{background:#ffffff0c}@media(max-width:760px){.reader-toolbar,.drawer-head{padding-top:calc(12px + env(safe-area-inset-top));padding-bottom:12px}.reader-toolbar h2{font-size:1.25rem}.reader-toolbar .label{font-size:.6rem}.reader .prose h2:first-child+p{font-size:1.3rem}.reader .prose h2,.reflection h2{font-size:.75rem;letter-spacing:.08em}.reader .reflection{margin-top:2.5rem}.reader .reflection li{font-size:1.4rem}}
+
+/* Locked archive entries and compact previous/next journal cards. */
+.archive-books .chapters a,
+.archive-books .chapters .chapter-row{display:grid;gap:.7rem;align-items:center;min-height:46px;padding:0 12px;margin:3px 0;border-radius:12px;font-size:.875rem}
+.archive-books .chapters a{grid-template-columns:2ch minmax(0,1fr) auto}
+.archive-books .chapters .chapter-row{grid-template-columns:2ch minmax(0,1fr) auto auto;color:var(--muted);cursor:default}
+.archive-books .chapters .chapter-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.archive-books .chapters .chapter-lock-icon{width:16px;height:16px;flex-shrink:0;color:#aaa79e99}
+.archive-books .chapters .chapter-row small{margin-left:0;font-size:.65rem;color:var(--muted);background:#ffffff05;border-radius:999px;padding:4px 7px;letter-spacing:.08em;text-transform:uppercase}
+.read-cta svg{width:24px;height:24px;flex-shrink:0}
+.reader .parasha-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;border:0;margin-top:2.5rem}
+.reader .parasha-nav .parasha-nav-card{min-width:0;min-height:88px;padding:16px;display:grid;grid-template-columns:24px minmax(0,1fr);align-items:center;gap:12px;border:1px solid #ffffff14;border-radius:18px;background:linear-gradient(140deg,#ffffff07,#ffffff02);box-shadow:inset 0 1px 0 #ffffff08;text-align:left;transition:border-color .2s,background .2s}
+.reader .parasha-nav .parasha-nav-next{grid-template-columns:minmax(0,1fr) 24px;text-align:right}
+.parasha-nav-card .nav-copy{min-width:0;display:flex;flex-direction:column;gap:5px}
+.reader .parasha-nav .parasha-nav-card .label{font-size:.62rem;line-height:1.4;letter-spacing:.14em}
+.reader .parasha-nav .parasha-nav-card strong{font-family:'Source Serif 4',serif;font-size:clamp(1rem,2.2vw,1.35rem);font-weight:500;line-height:1.2;overflow-wrap:anywhere}
+.reader .parasha-nav .parasha-nav-card .hebrew{font-size:1rem;line-height:1.4;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.parasha-nav-card .nav-arrow{width:22px;height:22px;color:var(--accent);flex-shrink:0}
+.parasha-nav-previous .nav-arrow{transform:rotate(180deg)}
+.reader .parasha-nav .parasha-nav-card.is-disabled{opacity:.55;cursor:default}
+.reader .parasha-nav .parasha-nav-card .nav-status{font-size:.72rem;line-height:1.4;color:var(--muted)}
+@media(hover:hover){.reader .parasha-nav .parasha-nav-card[href]:hover{border-color:#c6a57355;background:#c6a57308}}
+@media(max-width:760px){
+ .archive-books .chapters{padding-left:12px}
+ .archive-books .chapters a,.archive-books .chapters .chapter-row{gap:.5rem;padding:0 8px;font-size:.82rem}
+ .archive-books .chapters .chapter-row small{font-size:.58rem;padding:4px 6px}
+ .reader .parasha-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .reader .parasha-nav .parasha-nav-card{min-height:76px;padding:12px 9px;grid-template-columns:19px minmax(0,1fr);gap:7px;border-radius:15px}
+ .reader .parasha-nav .parasha-nav-next{grid-template-columns:minmax(0,1fr) 19px}
+ .reader .parasha-nav .parasha-nav-card strong{font-size:1rem}
+ .reader .parasha-nav .parasha-nav-card .hebrew{font-size:.82rem}
+ .reader .parasha-nav .parasha-nav-card .nav-arrow{width:19px;height:19px}
+}
