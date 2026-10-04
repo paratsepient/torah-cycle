@@ -8,7 +8,7 @@ export const books = [
 ];
 export const url = (path = '') => `${import.meta.env.BASE_URL.replace(/\/$/,'')}/${path.replace(/^\//,'')}`;
 export async function allPublished() {
- const all = await getCollection('parashot', e => e.data.published && !e.data.draft);
+ const all = await getCollection('parashot', e => !e.data.draft);
  const keys = new Set<string>();
  for (const e of all) {
  const key = `${e.data.cycleYear}/${e.data.slug}`;
@@ -20,5 +20,5 @@ export function latestYear(all: Parasha[]) { return Math.max(...all.map(e=>e.dat
 export function articleUrl(entry: Parasha, all: Parasha[]) {
  return url(entry.data.cycleYear === latestYear(all) ? `parasha/${entry.data.slug}/` : `cycle/${entry.data.cycleYear}/parasha/${entry.data.slug}/`);
 }
-export function current(all: Parasha[]): Parasha | undefined { return selectCurrent(all); }
+export function current(all: Parasha[]): Parasha | undefined { return selectCurrent(all.filter(e=>e.data.published)); }
 export function formattedDate(date: string) { return new Intl.DateTimeFormat('uk-UA',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Kyiv'}).format(new Date(date+'T12:00:00Z')).replace(' р.',''); }
