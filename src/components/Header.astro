@@ -2,5 +2,5 @@
 import { url } from '../lib/content';
 const { year } = Astro.props;
 ---
-<header class="site-header"><a class="brand" href={url()} aria-label="Цикл Тори — головна"><span aria-hidden="true">◇</span> ЦИКЛ ТОРИ</a>
-<button class="archive-trigger" data-open-archive aria-controls="archive" aria-haspopup="dialog" aria-expanded="false">АРХІВ {year} <span aria-hidden="true">↗</span></button></header>
+<header class="site-header"><a class="brand" href={url()} aria-label="Цикл Тори — головна"><svg class="menorah" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5v29M5 7v7a15 15 0 0 0 30 0V7M10 7v7a10 10 0 0 0 20 0V7M15 7v7a5 5 0 0 0 10 0V7M14 35h12"/></svg><span>ЦИКЛ ТОРИ</span></a>
+<button class="archive-trigger" data-open-archive aria-controls="archive" aria-haspopup="dialog" aria-expanded="false"><span class="archive-label">Архів <span class="archive-year">{year}</span></span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button></header>
