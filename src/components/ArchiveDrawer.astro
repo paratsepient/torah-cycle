@@ -5,15 +5,15 @@ const now = current(all);
 const years: number[] = [...new Set<number>(all.map((e: any)=>e.data.cycleYear))].sort((a,b)=>b-a);
 ---
 <dialog id="archive" class="drawer" aria-labelledby="archive-title">
- <div class="drawer-head"><div><span class="label">Архів циклу</span><h2 id="archive-title">{entry.data.cycleYear}</h2></div><button class="close-archive" aria-label="Закрити архів">×</button></div>
+ <div class="drawer-head"><div><span class="label">Архів циклу</span><h2 id="archive-title">{entry.data.cycleYear}</h2></div><button class="close-archive" aria-label="Закрити архів"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button></div>
  {years.length>1 && <label class="year-select">Рік <select aria-label="Рік циклу">{years.map(year=><option value={year} selected={year===entry.data.cycleYear}>{year}</option>)}</select></label>}
  {now && <a class="current-link" href={articleUrl(now,all)}><span class="label">Зараз читаємо</span><span>{now.data.title}</span><span class="hebrew" lang="he" dir="rtl">{now.data.hebrew}</span></a>}
  <nav aria-label="Глави за книгами" class="archive-books">{years.map(year=><div data-year={year} hidden={year!==entry.data.cycleYear}>
  {books.map((book,index)=>{
  const entries = all.filter((e:any)=>e.data.cycleYear===year && e.data.bookOrder===index+1);
  return <details name={`books-${year}`} open={index+1===entry.data.bookOrder}>
- <summary><span class="book-no">{String(index+1).padStart(2,'0')}</span><span><strong>{book.title}</strong><span class="hebrew" lang="he" dir="rtl">{book.hebrew}</span><small>{entries.length} / {book.count} матеріалів</small></span><span class="chevron" aria-hidden="true">+</span></summary>
- <div class="chapters">{entries.length ? entries.map((e:any)=><a href={articleUrl(e,all)} aria-current={e.id===entry.id?'page':undefined}><span class="chapter-index">{String(e.data.parashaOrder).padStart(2,'0')}</span><span>{e.data.title}</span>{e.id===now?.id && <small>Зараз</small>}</a>) : <p class="empty-book">Матеріали цієї книги готуються.</p>}</div></details>;
+ <summary><span class="book-no">{String(index+1).padStart(2,'0')}</span><span><strong>{book.title}</strong><span class="hebrew" lang="he" dir="rtl">{book.hebrew}</span><small>{entries.filter((e:any)=>e.data.published).length} / {book.count} матеріалів</small></span><span class="chevron" aria-hidden="true">+</span></summary>
+ <div class="chapters">{entries.length ? entries.map((e:any)=><a href={articleUrl(e,all)} class:list={{"upcoming-chapter":!e.data.published}} aria-current={e.id===entry.id?'page':undefined}><span class="chapter-index">{String(e.data.parashaOrder).padStart(2,'0')}</span><span>{e.data.title}</span>{!e.data.published ? <small>Скоро</small> : e.id===now?.id && <small>Зараз</small>}</a>) : <p class="empty-book">Матеріали цієї книги готуються.</p>}</div></details>;
  })}</div>)}</nav>
  <div class="drawer-foot">П’ять книг. Один річний цикл.</div>
 </dialog>

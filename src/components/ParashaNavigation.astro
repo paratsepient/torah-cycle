@@ -6,6 +6,6 @@ const index = cycle.findIndex((e:any)=>e.id===entry.id);
 const previous=cycle[index-1], next=cycle[index+1];
 ---
 <nav class="parasha-nav" aria-label="Навігація між матеріалами">
- {previous ? <a href={articleUrl(previous,all)}><span class="label">← Попередня</span><strong>{previous.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{previous.data.hebrew}</span></a> : <div><span class="label">Початок циклу</span><strong>Усе починається тут.</strong></div>}
- {next ? <a href={articleUrl(next,all)}><span class="label">Наступна →</span><strong>{next.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{next.data.hebrew}</span></a> : <div><span class="label">Далі у циклі</span><strong>Продовження готується.</strong></div>}
+ {previous ? <a href={articleUrl(previous,all)}><span class="label">Попередня</span><strong>{previous.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{previous.data.hebrew}</span></a> : <div><span class="label">Початок циклу</span><strong>Берешит</strong></div>}
+ {next ? <a href={articleUrl(next,all)}><span class="label">Наступна</span><strong>{next.data.title}</strong><span lang="he" dir="rtl" class="hebrew">{next.data.hebrew}</span>{!next.data.published && <span class="soon-badge">Скоро</span>}</a> : <div><span class="label">Далі у циклі</span><strong>Продовження готується.</strong></div>}
 </nav>
