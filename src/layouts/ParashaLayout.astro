@@ -6,7 +6,6 @@ import ArchiveDrawer from '../components/ArchiveDrawer.astro';
 import CursorParticle from '../components/CursorParticle.astro';
 import Reflection from '../components/Reflection.astro';
 import ParashaNavigation from '../components/ParashaNavigation.astro';
-import Footer from '../components/Footer.astro';
 import { url, articleUrl } from '../lib/content';
 import '../styles/global.css';
 import '@fontsource/manrope/latin-400.css';
@@ -32,7 +31,7 @@ const heroSizes = heroSrcset ? '(max-width: 760px) 100vw, 72vw' : undefined;
 <dialog id="reader" class="reader" aria-labelledby="reader-title">
 <div class="reader-toolbar"><div><h2 id="reader-title">{d.title} <span lang="he" dir="rtl" class="hebrew">{d.hebrew}</span></h2></div><button class="reader-close" aria-label="Закрити статтю"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button><div class="reading-progress" aria-hidden="true"></div></div>
 <article id="reading" class="article-shell" aria-label={`Матеріал: ${d.title}`}><div class="article-top"><span class="label">Думка тижня</span><span class="label">{d.book} / {String(d.parashaOrder).padStart(2,'0')}</span></div>
-<div class="prose"><Content/></div><Reflection questions={d.reflectionQuestions}/><ParashaNavigation entry={entry} all={all}/></article><Footer/></dialog><noscript><style>.reader:not([open]){display:block;position:static;max-height:none;height:auto;width:100%;max-width:none}.reader-toolbar{position:static}.reader-close{display:none}</style></noscript></> : <section class="soon-page"><Header year={d.cycleYear}/><div class="soon-content"><span class="label">Цикл Тори · {d.cycleYear}</span><h1>{d.title}</h1><div class="hebrew" lang="he" dir="rtl">{d.hebrew}</div><p>Скоро</p><a class="soon-return" href={url()}>До Берешит</a></div></section>}</main><ArchiveDrawer all={all} entry={entry}/><CursorParticle/>
+<div class="prose"><Content/></div><Reflection questions={d.reflectionQuestions}/><ParashaNavigation entry={entry} all={all}/></article></dialog><noscript><style>.reader:not([open]){display:block;position:static;max-height:none;height:auto;width:100%;max-width:none}.reader-toolbar{position:static}.reader-close{display:none}</style></noscript></> : <section class="soon-page"><Header year={d.cycleYear}/><div class="soon-content"><span class="label">Цикл Тори · {d.cycleYear}</span><h1>{d.title}</h1><div class="hebrew" lang="he" dir="rtl">{d.hebrew}</div><p>Скоро</p><a class="soon-return" href={url()}>До Берешит</a></div></section>}</main><ArchiveDrawer all={all} entry={entry}/><CursorParticle/>
 <script>
  const reader = document.querySelector<HTMLDialogElement>('#reader')!;
  if(reader){
