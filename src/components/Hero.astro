@@ -1,5 +1,5 @@
 ---
-import {url, formattedDate} from '../lib/content';
+import {url} from '../lib/content';
 const { entry } = Astro.props;
 const d = entry.data;
 const cover = d.heroImage.replace(/cover\.webp$/, 'cover-960.webp');
@@ -12,6 +12,6 @@ const display = d.title === 'Берешит' ? ['Бере','шит'] : d.title =
  <div class="title-composition"><span class="chapter-no" aria-hidden="true">{String(d.parashaOrder).padStart(2,'0')}</span>
  <h1 id="parasha-title" aria-label={d.title}>{display[0]}{display.length>1 && <><em aria-hidden="true">/</em>{display[1]}</>}</h1>
  <div class="hebrew-title" lang="he" dir="rtl">{d.hebrew}</div></div>
- <div class="essence"><span class="label">Сутність</span><p>{d.essence}</p></div></div>
- <div class="hero-bottom"><dl><div><dt>Григоріанський</dt><dd><time datetime={d.gregorianDate}>{formattedDate(d.gregorianDate)}</time></dd></div><div><dt>Єврейський</dt><dd>{d.hebrewDate}</dd></div><div><dt>День / книга</dt><dd>Шабат · {d.book} · {String(d.parashaOrder).padStart(2,'0')}</dd></div></dl><a class="read-cta" href="#reading" data-open-reading aria-haspopup="dialog" aria-controls="reader"><span>Читати</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/></svg></a></div>
+ <div class="essence"><span class="label">Сутність</span><p>{d.essence}</p></div>
+ <a class="read-cta" href="#reading" data-open-reading aria-haspopup="dialog" aria-controls="reader"><span>Читати</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/></svg></a></div>
 </section>

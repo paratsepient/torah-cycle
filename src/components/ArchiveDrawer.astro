@@ -4,10 +4,9 @@ const { all, entry } = Astro.props;
 const now = current(all);
 const years: number[] = [...new Set<number>(all.map((e: any)=>e.data.cycleYear))].sort((a,b)=>b-a);
 ---
-<dialog id="archive" class="drawer" aria-labelledby="archive-title">
- <div class="drawer-head"><div><span class="label">Архів циклу</span><h2 id="archive-title">{entry.data.cycleYear}</h2></div><button class="close-archive" aria-label="Закрити архів"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button></div>
+<dialog id="archive" class="drawer" aria-labelledby="archive-label archive-title">
+ <div class="drawer-head"><div><span class="label" id="archive-label">Читаємо на цьому тижні</span><h2 id="archive-title">{now ? <a href={articleUrl(now,all)}>{now.data.title}</a> : entry.data.title}</h2>{now && <span class="drawer-current-hebrew hebrew" lang="he" dir="rtl">{now.data.hebrew}</span>}</div><button class="close-archive" aria-label="Закрити архів"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button><div class="archive-progress" aria-hidden="true"></div></div>
  {years.length>1 && <label class="year-select">Рік <select aria-label="Рік циклу">{years.map(year=><option value={year} selected={year===entry.data.cycleYear}>{year}</option>)}</select></label>}
- {now && <a class="current-link" href={articleUrl(now,all)}><span class="label">Зараз читаємо</span><span>{now.data.title}</span><span class="hebrew" lang="he" dir="rtl">{now.data.hebrew}</span></a>}
  <nav aria-label="Глави за книгами" class="archive-books">{years.map(year=><div data-year={year} hidden={year!==entry.data.cycleYear}>
  {books.map((book,index)=>{
  const entries = all.filter((e:any)=>e.data.cycleYear===year && e.data.bookOrder===index+1);
@@ -26,10 +25,13 @@ const years: number[] = [...new Set<number>(all.map((e: any)=>e.data.cycleYear))
 <script>
  const drawer = document.querySelector<HTMLDialogElement>('#archive')!;
  const trigger = document.querySelector<HTMLButtonElement>('[data-open-archive]')!;
+ const progress = drawer.querySelector<HTMLElement>('.archive-progress')!;
+ function updateProgress(){const total=drawer.scrollHeight-drawer.clientHeight;progress.style.transform=`scaleX(${total>0?drawer.scrollTop/total:0})`;}
  let restore: HTMLElement | null = null;
  trigger.addEventListener('click', ()=>{restore=document.activeElement as HTMLElement;drawer.showModal();document.body.classList.add('menu-open');trigger.setAttribute('aria-expanded','true');});
+ drawer.addEventListener('scroll',updateProgress,{passive:true});
  drawer.querySelector('.close-archive')?.addEventListener('click',()=>drawer.close());
  drawer.addEventListener('click',e=>{if(e.target===drawer){const b=drawer.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)drawer.close();}});
  drawer.addEventListener('close',()=>{document.body.classList.remove('menu-open');trigger.setAttribute('aria-expanded','false');restore?.focus();});
- drawer.querySelector('select')?.addEventListener('change',e=>{const year=(e.target as HTMLSelectElement).value;drawer.querySelectorAll<HTMLElement>('[data-year]').forEach(el=>el.hidden=el.dataset.year!==year);drawer.querySelector('#archive-title')!.textContent=year;});
+ drawer.querySelector('select')?.addEventListener('change',e=>{const year=(e.target as HTMLSelectElement).value;drawer.querySelectorAll<HTMLElement>('[data-year]').forEach(el=>el.hidden=el.dataset.year!==year);updateProgress();});
 </script>
