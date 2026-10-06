@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import ArchiveDrawer from '../components/ArchiveDrawer.astro';
+import CursorParticle from '../components/CursorParticle.astro';
 import Reflection from '../components/Reflection.astro';
 import ParashaNavigation from '../components/ParashaNavigation.astro';
 import Footer from '../components/Footer.astro';
@@ -21,15 +22,17 @@ const {Content} = await render(entry);
 const canonical = new URL(articleUrl(entry,all),Astro.site);
 const og = new URL(url(`/images/parashot/${d.cycleYear}/${d.slug}/og.jpg`),Astro.site);
 const title = `${d.title} — тижнева глава Тори | Цикл Тори`;
+const heroSrcset = import.meta.env.PROD ? `${url(d.heroImage.replace('cover.webp','cover-640.webp'))} 640w, ${url(d.heroImage.replace('cover.webp','cover-960.webp'))} 960w, ${url(d.heroImage)} 1800w` : undefined;
+const heroSizes = heroSrcset ? '(max-width: 760px) 100vw, 72vw' : undefined;
 ---
-<!doctype html><html lang="uk"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#090a08"/><title>{title}</title><meta name="robots" content={d.published ? "index,follow" : "noindex,follow"}/><meta name="description" content={d.essence}/><link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('favicon.svg')}/><link rel="sitemap" href={url('sitemap-index.xml')}/>
+<!doctype html><html lang="uk"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#090a08"/><title>{title}</title><meta name="robots" content={d.published ? "index,follow" : "noindex,follow"}/><meta name="description" content={d.essence}/><link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('images/menorah.svg')}/><link rel="sitemap" href={url('sitemap-index.xml')}/>
 <meta property="og:type" content="article"/><meta property="og:locale" content="uk_UA"/><meta property="og:site_name" content="Цикл Тори"/><meta property="og:title" content={title}/><meta property="og:description" content={d.essence}/><meta property="og:url" content={canonical}/><meta property="og:image" content={og}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content={`${d.title} — ${d.hebrew} | Цикл Тори`}/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={d.essence}/><meta name="twitter:image" content={og}/>
-<link rel="preload" as="image" href={url(d.heroImage)} imagesrcset={`${url(d.heroImage.replace('cover.webp','cover-640.webp'))} 640w, ${url(d.heroImage.replace('cover.webp','cover-960.webp'))} 960w, ${url(d.heroImage)} 1800w`} imagesizes="(max-width: 760px) 100vw, 72vw"/>
+<link rel="preload" as="image" href={url(d.heroImage)} imagesrcset={heroSrcset} imagesizes={heroSizes}/>
 </head><body id="top"><a class="skip-link" href="#reading">Перейти до матеріалу</a><main>{d.published ? <><div class="cover-shell"><Header year={d.cycleYear}/><Hero entry={entry}/></div>
 <dialog id="reader" class="reader" aria-labelledby="reader-title">
 <div class="reader-toolbar"><div><h2 id="reader-title">{d.title} <span lang="he" dir="rtl" class="hebrew">{d.hebrew}</span></h2></div><button class="reader-close" aria-label="Закрити статтю"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button><div class="reading-progress" aria-hidden="true"></div></div>
 <article id="reading" class="article-shell" aria-label={`Матеріал: ${d.title}`}><div class="article-top"><span class="label">Думка тижня</span><span class="label">{d.book} / {String(d.parashaOrder).padStart(2,'0')}</span></div>
-<div class="prose"><Content/></div><Reflection questions={d.reflectionQuestions}/><ParashaNavigation entry={entry} all={all}/></article><Footer/></dialog><noscript><style>.reader:not([open]){display:block;position:static;max-height:none;height:auto;width:100%;max-width:none}.reader-toolbar{position:static}.reader-close{display:none}</style></noscript></> : <section class="soon-page"><Header year={d.cycleYear}/><div class="soon-content"><span class="label">Цикл Тори · {d.cycleYear}</span><h1>{d.title}</h1><div class="hebrew" lang="he" dir="rtl">{d.hebrew}</div><p>Скоро</p><a class="soon-return" href={url()}>До Берешит</a></div></section>}</main><ArchiveDrawer all={all} entry={entry}/>
+<div class="prose"><Content/></div><Reflection questions={d.reflectionQuestions}/><ParashaNavigation entry={entry} all={all}/></article><Footer/></dialog><noscript><style>.reader:not([open]){display:block;position:static;max-height:none;height:auto;width:100%;max-width:none}.reader-toolbar{position:static}.reader-close{display:none}</style></noscript></> : <section class="soon-page"><Header year={d.cycleYear}/><div class="soon-content"><span class="label">Цикл Тори · {d.cycleYear}</span><h1>{d.title}</h1><div class="hebrew" lang="he" dir="rtl">{d.hebrew}</div><p>Скоро</p><a class="soon-return" href={url()}>До Берешит</a></div></section>}</main><ArchiveDrawer all={all} entry={entry}/><CursorParticle/>
 <script>
  const reader = document.querySelector<HTMLDialogElement>('#reader')!;
  if(reader){

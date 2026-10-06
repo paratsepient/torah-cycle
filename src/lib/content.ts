@@ -2,9 +2,11 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { selectCurrent } from './calendar.mjs';
 export type Parasha = CollectionEntry<'parashot'>;
 export const books = [
- {title:'Берешит', hebrew:'בראשית', count:12}, {title:'Шмот', hebrew:'שמות', count:11},
- {title:'Ваїкра', hebrew:'ויקרא', count:10}, {title:'Бемідбар', hebrew:'במדבר', count:10},
- {title:'Дварім', hebrew:'דברים', count:11},
+ {title:'Берешит', hebrew:'בראשית', parashot:['Берешит','Ноах','Лех-Леха','Ваєра','Хаєй-Сара','Толдот','Ваєце','Ваїшлах','Ваєшев','Мікец','Ваїгаш','Ваїхі']},
+ {title:'Шмот', hebrew:'שמות', parashot:['Шмот','Ваера','Бо','Бешалах','Їтро','Мішпатім','Трума','Тецаве','Кі Тіса','Ваякгель','Пкудей']},
+ {title:'Ваїкра', hebrew:'ויקרא', parashot:['Ваїкра','Цав','Шміні','Тазріа','Мецора','Ахарей Мот','Кдошим','Емор','Бегар','Бехукотай']},
+ {title:'Бемідбар', hebrew:'במדבר', parashot:['Бемідбар','Насо','Беаалотха','Шелах','Корах','Хукат','Балак','Пінхас','Матот','Масей']},
+ {title:'Дварім', hebrew:'דברים', parashot:['Дварім','Ва-етханан','Екев','Реє','Шофтім','Кі Теце','Кі Таво','Ніцавім','Ваєлех','Гаазіну','Везот Габраха']},
 ];
 export const url = (path = '') => `${import.meta.env.BASE_URL.replace(/\/$/,'')}/${path.replace(/^\//,'')}`;
 export async function allPublished() {

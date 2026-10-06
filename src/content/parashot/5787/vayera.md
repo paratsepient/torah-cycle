@@ -8,7 +8,7 @@ bookHebrew: "בראשית"
 bookOrder: 1
 parashaOrder: 4
 reading: "Буття 18:1–22:24"
-readingUrl: "https://www.sefaria.org/Genesis.18.1-22.24"
+readingUrl: "https://www.bible.com/uk/bible/3786/GEN.18.CUV"
 gregorianDate: "2026-10-31"
 hebrewDate: "20 хешвана 5787"
 heroImage: "/images/parashot/5787/vayera/cover.webp"

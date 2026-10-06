@@ -1,0 +1,79 @@
+<div class="cursor-particle" data-cursor-particle aria-hidden="true">
+ {Array.from({length:6},(_,index)=><span class:list={['cursor-particle__dot',`cursor-particle__dot--${index+1}`]}></span>)}
+</div>
+
+<script>
+ const layer = document.querySelector<HTMLElement>('[data-cursor-particle]');
+ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+ if (layer && finePointer.matches && !reducedMotion.matches) {
+  const dots = Array.from(layer.querySelectorAll<HTMLElement>('.cursor-particle__dot'));
+  const positions = dots.map(() => ({x:0,y:0}));
+  const followRates = [.56,.28,.19,.14,.1,.075];
+  let targetX = 0;
+  let targetY = 0;
+  let active = false;
+  let frame = 0;
+
+  const positionDots = () => dots.forEach((dot,index) => {
+   dot.style.transform = `translate3d(${positions[index].x}px,${positions[index].y}px,0) translate(-50%,-50%)`;
+  });
+
+  const hide = () => {
+   active = false;
+   layer.classList.remove('is-visible');
+   if (frame) cancelAnimationFrame(frame);
+   frame = 0;
+  };
+
+  const animate = () => {
+   frame = 0;
+   if (!active) return;
+
+   for (let index = 0; index < positions.length; index++) {
+    const next = index === 0 ? {x:targetX,y:targetY} : positions[index-1];
+    positions[index].x += (next.x - positions[index].x) * followRates[index];
+    positions[index].y += (next.y - positions[index].y) * followRates[index];
+   }
+   positionDots();
+
+   const unsettled = positions.some((position,index) => {
+    const next = index === 0 ? {x:targetX,y:targetY} : positions[index-1];
+    return Math.abs(next.x-position.x) > .25 || Math.abs(next.y-position.y) > .25;
+   });
+   if (unsettled) frame = requestAnimationFrame(animate);
+  };
+
+  window.addEventListener('pointermove',event => {
+   if (event.pointerType === 'touch') return;
+   targetX = event.clientX;
+   targetY = event.clientY;
+   if (!active) {
+    positions.forEach(position => { position.x = targetX; position.y = targetY; });
+    positionDots();
+    active = true;
+    layer.classList.add('is-visible');
+   }
+   if (!frame) frame = requestAnimationFrame(animate);
+  },{passive:true});
+
+  window.addEventListener('pointerleave',hide);
+  window.addEventListener('blur',hide);
+  document.addEventListener('visibilitychange',() => { if (document.hidden) hide(); });
+ }
+</script>
+
+<style>
+ .cursor-particle{position:fixed;inset:0;z-index:30;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .18s ease}
+ .cursor-particle.is-visible{opacity:1}
+ .cursor-particle__dot{position:absolute;top:0;left:0;display:block;border-radius:50%;will-change:transform}
+ .cursor-particle__dot--1{width:8px;height:8px;background:#ffe3a7;box-shadow:0 0 7px 2px #f2ca7b,0 0 19px 6px #c6a57370}
+ .cursor-particle__dot--2{width:6px;height:6px;background:#e9c27d;opacity:.62;box-shadow:0 0 9px 3px #c6a57366}
+ .cursor-particle__dot--3{width:5px;height:5px;background:#d9b16b;opacity:.45;box-shadow:0 0 8px 2px #c6a57355}
+ .cursor-particle__dot--4{width:4px;height:4px;background:#c6a573;opacity:.34;box-shadow:0 0 7px 2px #c6a57344}
+ .cursor-particle__dot--5{width:3px;height:3px;background:#c6a573;opacity:.25;box-shadow:0 0 6px 2px #c6a57333}
+ .cursor-particle__dot--6{width:2px;height:2px;background:#c6a573;opacity:.18;box-shadow:0 0 5px 1px #c6a57333}
+ @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.cursor-particle{display:block}}
+ @media(hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){.cursor-particle{display:none}}
+</style>

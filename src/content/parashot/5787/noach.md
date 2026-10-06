@@ -8,7 +8,7 @@ bookHebrew: "בראשית"
 bookOrder: 1
 parashaOrder: 2
 reading: "Буття 6:9–11:32"
-readingUrl: "https://www.sefaria.org/Genesis.6.9-11.32"
+readingUrl: "https://www.bible.com/uk/bible/3786/GEN.6.CUV"
 gregorianDate: "2026-10-17"
 hebrewDate: "6 хешвана 5787"
 heroImage: "/images/parashot/5787/noach/cover.webp"

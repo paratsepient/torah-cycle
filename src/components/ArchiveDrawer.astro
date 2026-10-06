@@ -5,18 +5,18 @@ const now = current(all);
 const years: number[] = [...new Set<number>(all.map((e: any)=>e.data.cycleYear))].sort((a,b)=>b-a);
 ---
 <dialog id="archive" class="drawer" aria-labelledby="archive-label archive-title">
- <div class="drawer-head"><div><span class="label" id="archive-label">Читаємо на цьому тижні</span><h2 id="archive-title">{now ? <a href={articleUrl(now,all)}>{now.data.title}</a> : entry.data.title}</h2>{now && <span class="drawer-current-hebrew hebrew" lang="he" dir="rtl">{now.data.hebrew}</span>}</div><button class="close-archive" aria-label="Закрити архів"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button><div class="archive-progress" aria-hidden="true"></div></div>
+ <div class="drawer-head"><div><span class="label" id="archive-label">Читаємо на цьому тижні</span><h2 id="archive-title">{now ? <a href={articleUrl(now,all)}>{now.data.title}</a> : entry.data.title}</h2></div><button class="close-archive" aria-label="Закрити архів"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button><div class="archive-progress" aria-hidden="true"></div></div>
  {years.length>1 && <label class="year-select">Рік <select aria-label="Рік циклу">{years.map(year=><option value={year} selected={year===entry.data.cycleYear}>{year}</option>)}</select></label>}
  <nav aria-label="Глави за книгами" class="archive-books">{years.map(year=><div data-year={year} hidden={year!==entry.data.cycleYear}>
  {books.map((book,index)=>{
  const entries = all.filter((e:any)=>e.data.cycleYear===year && e.data.bookOrder===index+1);
  return <details name={`books-${year}`} open={index+1===entry.data.bookOrder}>
- <summary><span class="book-no">{String(index+1).padStart(2,'0')}</span><span><strong>{book.title}</strong><span class="hebrew" lang="he" dir="rtl">{book.hebrew}</span><small>{entries.filter((e:any)=>e.data.published).length} / {book.count} матеріалів</small></span><span class="chevron" aria-hidden="true">+</span></summary>
- <div class="chapters" role="list">{Array.from({length:book.count},(_,offset)=>{
+ <summary><span class="book-no">{String(index+1).padStart(2,'0')}</span><span><strong>{book.title}</strong><span class="hebrew" lang="he" dir="rtl">{book.hebrew}</span><small>{entries.filter((e:any)=>e.data.published).length} / {book.parashot.length} матеріалів</small></span><span class="chevron" aria-hidden="true">+</span></summary>
+ <div class="chapters" role="list">{Array.from({length:book.parashot.length},(_,offset)=>{
  const order=offset+1;
  const item=entries.find((e:any)=>e.data.parashaOrder===order);
  if(item?.data.published) return <a role="listitem" href={articleUrl(item,all)} aria-current={item.id===entry.id?'page':undefined}><span class="chapter-index">{String(order).padStart(2,'0')}</span><span class="chapter-title">{item.data.title}</span>{item.id===now?.id && <small>Зараз</small>}</a>;
- const title=item?.data.title ?? `Глава ${String(order).padStart(2,'0')}`;
+ const title=item?.data.title ?? book.parashot[offset];
  return <div class="chapter-row is-locked" role="listitem" aria-label={`${title}, скоро буде доступна`}><span class="chapter-index">{String(order).padStart(2,'0')}</span><span class="chapter-title">{title}</span><svg class="chapter-lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/></svg><small>Скоро</small></div>;
 })}</div></details>;
  })}</div>)}</nav>

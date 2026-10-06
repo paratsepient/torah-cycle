@@ -8,7 +8,7 @@ bookHebrew: "בראשית"
 bookOrder: 1
 parashaOrder: 3
 reading: "Буття 12:1–17:27"
-readingUrl: "https://www.sefaria.org/Genesis.12.1-17.27"
+readingUrl: "https://www.bible.com/uk/bible/3786/GEN.12.CUV"
 gregorianDate: "2026-10-24"
 hebrewDate: "13 хешвана 5787"
 heroImage: "/images/parashot/5787/lech-lecha/cover.webp"

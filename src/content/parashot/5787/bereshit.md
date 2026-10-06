@@ -8,7 +8,7 @@ bookHebrew: "בראשית"
 bookOrder: 1
 parashaOrder: 1
 reading: "Буття 1:1–6:8"
-readingUrl: "https://www.sefaria.org/Genesis.1.1-6.8"
+readingUrl: "https://www.bible.com/uk/bible/3786/GEN.1.CUV"
 gregorianDate: "2026-10-10"
 hebrewDate: "29 тішрея 5787"
 heroImage: "/images/parashot/5787/bereshit/cover.webp"

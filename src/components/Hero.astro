@@ -4,14 +4,15 @@ const { entry } = Astro.props;
 const d = entry.data;
 const cover = d.heroImage.replace(/cover\.webp$/, 'cover-960.webp');
 const small = d.heroImage.replace(/cover\.webp$/, 'cover-640.webp');
+const imageSet = import.meta.env.PROD ? `${url(small)} 640w, ${url(cover)} 960w, ${url(d.heroImage)} 1800w` : undefined;
+const imageSizes = imageSet ? '(max-width: 760px) 100vw, 72vw' : undefined;
 const display = d.title === 'Берешит' ? ['Бере','шит'] : d.title === 'Лех-Леха' ? ['Лех','Леха'] : [d.title];
 ---
 <section class="hero" aria-labelledby="parasha-title">
- <div class="hero-image"><img src={url(d.heroImage)} srcset={`${url(small)} 640w, ${url(cover)} 960w, ${url(d.heroImage)} 1800w`} sizes="(max-width: 760px) 100vw, 72vw" alt={d.heroAlt} width="1800" height="1200" fetchpriority="high" decoding="async" /></div>
- <div class="hero-content"><div class="eyebrow"><span>Тижнева глава</span><i aria-hidden="true"></i><a href={d.readingUrl} target="_blank" rel="noopener noreferrer">{d.reading} <span class="sr-only">— текст івритом та переклади, відкриється в новій вкладці</span></a></div>
- <div class="title-composition"><span class="chapter-no" aria-hidden="true">{String(d.parashaOrder).padStart(2,'0')}</span>
- <h1 id="parasha-title" aria-label={d.title}>{display[0]}{display.length>1 && <><em aria-hidden="true">/</em>{display[1]}</>}</h1>
+ <div class="hero-image"><img src={url(d.heroImage)} srcset={imageSet} sizes={imageSizes} alt={d.heroAlt} width="1800" height="1200" fetchpriority="high" decoding="async" /></div>
+ <div class="hero-content"><div class="title-composition">
+ <div class="title-copy"><h1 id="parasha-title" aria-label={d.title}>{display[0]}{display.length>1 && <><em aria-hidden="true">/</em>{display[1]}</>}</h1>
+ <a class="reading-reference label" href={d.readingUrl} target="_blank" rel="noopener noreferrer">{d.reading}<span class="sr-only"> — відкрити в українському перекладі Bible.com у новій вкладці</span></a></div>
  <div class="hebrew-title" lang="he" dir="rtl">{d.hebrew}</div></div>
- <div class="essence"><span class="label">Сутність</span><p>{d.essence}</p></div>
- <a class="read-cta" href="#reading" data-open-reading aria-haspopup="dialog" aria-controls="reader"><span>Читати</span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/></svg></a></div>
+ <div class="essence"><span class="label">Сутність</span><p>{d.essence} <a class="read-more" href="#reading" data-open-reading aria-haspopup="dialog" aria-controls="reader">Читати далі</a></p></div></div>
 </section>
