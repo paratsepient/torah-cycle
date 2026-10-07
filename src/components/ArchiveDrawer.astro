@@ -5,7 +5,7 @@ const now = current(all);
 const years: number[] = [...new Set<number>(all.map((e: any)=>e.data.cycleYear))].sort((a,b)=>b-a);
 ---
 <dialog id="archive" class="drawer" aria-labelledby="archive-label archive-title">
- <div class="drawer-head"><div><span class="label" id="archive-label">Читаємо на цьому тижні</span><h2 id="archive-title">{now ? <a href={articleUrl(now,all)}>{now.data.title}</a> : entry.data.title}</h2></div><button class="close-archive" aria-label="Закрити архів"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button><div class="archive-progress" aria-hidden="true"></div></div>
+ <div class="drawer-head"><div><span class="label" id="archive-label">Читаємо на цьому тижні</span><h2 id="archive-title">{now ? <a href={articleUrl(now,all)}>{now.data.title}</a> : entry.data.title}</h2></div><button class="close-archive" aria-label="Закрити архів" autofocus><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button><div class="archive-progress" aria-hidden="true"></div></div>
  {years.length>1 && <label class="year-select">Рік <select aria-label="Рік циклу">{years.map(year=><option value={year} selected={year===entry.data.cycleYear}>{year}</option>)}</select></label>}
  <nav aria-label="Глави за книгами" class="archive-books">{years.map(year=><div data-year={year} hidden={year!==entry.data.cycleYear}>
  {books.map((book,index)=>{
