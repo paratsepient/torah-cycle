@@ -19,13 +19,15 @@ const {entry, all} = Astro.props;
 const d = entry.data;
 const {Content} = await render(entry);
 const canonical = new URL(articleUrl(entry,all),Astro.site);
-const og = new URL(url(`/images/parashot/${d.cycleYear}/${d.slug}/og.jpg`),Astro.site);
+const og = new URL(url(`/images/parashot/${d.cycleYear}/${d.slug}/share-v2.jpg`),Astro.site);
+const shareTitle = `${d.title} · Тижнева глава Тори`;
+const shareDescription = d.shareDescription || d.essence;
 const title = `${d.title} — тижнева глава Тори | Цикл Тори`;
 const heroSrcset = import.meta.env.PROD ? `${url(d.heroImage.replace('cover.webp','cover-640.webp'))} 640w, ${url(d.heroImage.replace('cover.webp','cover-960.webp'))} 960w, ${url(d.heroImage)} 1800w` : undefined;
 const heroSizes = heroSrcset ? '(max-width: 760px) 100vw, 72vw' : undefined;
 ---
-<!doctype html><html lang="uk"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#090a08"/><title>{title}</title><meta name="robots" content={d.published ? "index,follow" : "noindex,follow"}/><meta name="description" content={d.essence}/><link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('images/menorah.svg')}/><link rel="sitemap" href={url('sitemap-index.xml')}/>
-<meta property="og:type" content="article"/><meta property="og:locale" content="uk_UA"/><meta property="og:site_name" content="Цикл Тори"/><meta property="og:title" content={title}/><meta property="og:description" content={d.essence}/><meta property="og:url" content={canonical}/><meta property="og:image" content={og}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content={`${d.title} — ${d.hebrew} | Цикл Тори`}/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={d.essence}/><meta name="twitter:image" content={og}/>
+<!doctype html><html lang="uk"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#090a08"/><title>{title}</title><meta name="robots" content={d.published ? "index,follow" : "noindex,follow"}/><meta name="description" content={d.essence}/><link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('images/menorah-emblem.svg')}/><link rel="sitemap" href={url('sitemap-index.xml')}/>
+<meta property="og:type" content="article"/><meta property="og:locale" content="uk_UA"/><meta property="og:site_name" content="Цикл Тори"/><meta property="og:title" content={shareTitle}/><meta property="og:description" content={shareDescription}/><meta property="og:url" content={canonical}/><meta property="og:image" content={og}/><meta property="og:image:type" content="image/jpeg"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content={`${d.title} — ${d.hebrew} | Цикл Тори`}/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={shareTitle}/><meta name="twitter:description" content={shareDescription}/><meta name="twitter:image" content={og}/>
 <link rel="preload" as="image" href={url(d.heroImage)} imagesrcset={heroSrcset} imagesizes={heroSizes}/>
 </head><body id="top"><a class="skip-link" href="#reading">Перейти до матеріалу</a><main>{d.published ? <><div class="cover-shell"><Header year={d.cycleYear}/><Hero entry={entry}/></div>
 <dialog id="reader" class="reader" aria-labelledby="reader-title">

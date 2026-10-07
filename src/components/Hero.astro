@@ -6,12 +6,11 @@ const cover = d.heroImage.replace(/cover\.webp$/, 'cover-960.webp');
 const small = d.heroImage.replace(/cover\.webp$/, 'cover-640.webp');
 const imageSet = import.meta.env.PROD ? `${url(small)} 640w, ${url(cover)} 960w, ${url(d.heroImage)} 1800w` : undefined;
 const imageSizes = imageSet ? '(max-width: 760px) 100vw, 72vw' : undefined;
-const display = d.title === 'Берешит' ? ['Бере','шит'] : d.title === 'Лех-Леха' ? ['Лех','Леха'] : [d.title];
 ---
 <section class="hero" aria-labelledby="parasha-title">
  <div class="hero-image"><img src={url(d.heroImage)} srcset={imageSet} sizes={imageSizes} alt={d.heroAlt} width="1800" height="1200" fetchpriority="high" decoding="async" /></div>
  <div class="hero-content"><div class="title-composition">
- <div class="title-copy"><h1 id="parasha-title" aria-label={d.title}>{display[0]}{display.length>1 && <><em aria-hidden="true">/</em>{display[1]}</>}</h1>
+ <div class="title-copy"><h1 id="parasha-title">{d.title}</h1>
  <a class="reading-reference label" href={d.readingUrl} target="_blank" rel="noopener noreferrer">{d.reading}<span class="sr-only"> — відкрити в українському перекладі Bible.com у новій вкладці</span></a></div>
  <div class="hebrew-title" lang="he" dir="rtl">{d.hebrew}</div></div>
  <div class="essence"><span class="label">Сутність</span><p>{d.essence} <a class="read-more" href="#reading" data-open-reading aria-haspopup="dialog" aria-controls="reader">Читати далі</a></p></div></div>

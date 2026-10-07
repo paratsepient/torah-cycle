@@ -12,7 +12,7 @@ const parashot = defineCollection({
  bookOrder: z.number().int().min(1).max(5), parashaOrder: z.number().int().min(1).max(12),
  reading: z.string(), readingUrl: z.url(), gregorianDate: isoDate, hebrewDate: z.string(),
  activeFrom: isoDate.optional(), heroImage: z.string().regex(/^\/images\/.+\.webp$/), heroAlt: z.string().min(1),
- essence: z.string().min(1), reflectionQuestions: z.array(z.string()).min(1).max(3),
+ essence: z.string().min(1), shareDescription: z.string().min(1).max(180).optional(), reflectionQuestions: z.array(z.string()).min(1).max(3),
  published: z.boolean().default(false), draft: z.boolean().default(false),
  }).refine(d => d.heroImage === `/images/parashot/${d.cycleYear}/${d.slug}/cover.webp`, {
   message: 'heroImage має відповідати /images/parashot/YEAR/SLUG/cover.webp', path: ['heroImage']

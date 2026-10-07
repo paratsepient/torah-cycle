@@ -79,20 +79,59 @@ body.reader-open{overflow:hidden}.brand .menorah{width:30px;height:36px;color:va
 .drawer-head h2 a:hover{color:var(--accent)}
 .archive-progress{position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:linear-gradient(90deg,#937144,#e7c78e);transform:scaleX(0);transform-origin:left center;pointer-events:none}
 
-.title-copy{position:relative;width:max-content;max-width:100%}
-.title-copy h1{width:max-content;max-width:100%}
-.reading-reference{display:block;width:max-content;max-width:calc(100vw - 48px);margin-top:.15rem;margin-left:auto;text-align:right;text-decoration:none}
+.title-copy{position:relative;width:max-content;max-width:100%;transform:translateY(28px)}
+.title-copy h1{position:relative;top:-10px;width:max-content;max-width:100%}
+.reading-reference{position:absolute;top:calc(100% - .5rem);right:0;display:block;width:max-content;max-width:calc(100vw - 48px);margin:0;text-align:right;text-decoration:none}
 .reading-reference:hover{text-decoration:underline;text-decoration-color:#c6a57366;text-underline-offset:4px}
-.brand .menorah{width:28px;height:28px;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 10px #0008)}
-@media(max-width:760px){.brand .menorah{width:24px;height:24px}}
+.brand .menorah{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 2px 10px #0008)}
+@media(max-width:760px){.brand .menorah{width:36px;height:36px}}
 @media(min-width:761px){.site-header,.hero{padding-left:1.75vw;padding-right:1.75vw}}
 @media(max-width:760px){.site-header{padding-left:10px;padding-right:10px}.hero{padding-left:8px;padding-right:8px}.archive-trigger{width:44px;height:44px}}
 .archive-trigger{width:48px;padding:0;justify-content:center;gap:0}
-.brand span{font-family:'Source Serif 4',serif;font-size:1rem;font-weight:400;letter-spacing:.1em}
+.brand{gap:.5rem}.brand span{font-family:'Source Serif 4',serif;font-size:1rem;font-weight:400;letter-spacing:.1em}
 @media(max-width:760px){.archive-trigger{width:44px}}
+
+/* Mobile title and a gold reflection across the glass card. */
+@media(max-width:760px){.hero h1{font-size:clamp(2.75rem,12.75vw,6rem)}}
+@media(max-width:760px){.title-copy{transform:translateY(20px)}.reading-reference{top:calc(100% - .5rem)}}
+@media(min-width:761px) and (max-width:1000px){.hero-content{width:100%;max-width:none}}
+.hero-content{isolation:isolate;transition:border-color .35s,box-shadow .35s}
+.hero-content::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 30%,#eacb8d08 40%,#fff1cb38 49%,#dcb66a18 55%,transparent 65%);background-size:250% 100%;background-position:100% 0;opacity:0}
+@media(hover:hover) and (pointer:fine){.hero-content:hover{border-color:#eacb8d66;box-shadow:0 24px 80px #0005,inset 0 1px 0 #fff1cb50,inset 0 -1px 0 #c6a57330}.hero-content:hover::after{animation:hero-glass-shimmer 1.6s ease-in-out 1 both}}
+@keyframes hero-glass-shimmer{0%{opacity:0;background-position:100% 0}12%{opacity:1}82%{opacity:.75}100%{opacity:0;background-position:0% 0}}
+@media(prefers-reduced-motion:reduce){.hero-content,.hero-content::after{transition:none}.hero-content:hover::after{animation:none}}
 
 /* A clearer glass surface for the hero card and archive control. */
 .hero-content{border:1px solid #ffffff2b;background:linear-gradient(132deg,#ffffff1b 0%,#ffffff0b 38%,#090a0866 100%),linear-gradient(180deg,#1b1c1980,#0d0e0bb3);-webkit-backdrop-filter:blur(24px) saturate(145%);backdrop-filter:blur(24px) saturate(145%);box-shadow:0 24px 80px #0005,inset 0 1px 0 #ffffff30,inset 0 -1px 0 #c6a5731c}
 .archive-trigger{border:1px solid #ffffff2b;background:linear-gradient(145deg,#ffffff20,#ffffff08 55%,#c6a5730b),#14151070;-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);box-shadow:inset 0 1px 0 #ffffff30,0 8px 24px #0003;transition:background .22s,border-color .22s,box-shadow .22s,transform .22s}
 @media(hover:hover){.archive-trigger:hover{border-color:#ffffff48;background:linear-gradient(145deg,#ffffff2b,#ffffff0d 55%,#c6a57312),#14151085;box-shadow:inset 0 1px 0 #ffffff40,0 10px 28px #0004;transform:translateY(-1px)}}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.hero-content{background:linear-gradient(132deg,#ffffff16,#ffffff06 45%,#0d0e0be8);}.archive-trigger{background:linear-gradient(145deg,#ffffff20,#ffffff08),#141510e8}}
+
+@media(min-width:1800px){
+ .site-header,.hero,.site-footer{max-width:3200px}
+ .site-header{height:clamp(120px,7vh,176px);padding:8px clamp(64px,4vw,144px) 0}
+ .hero{min-height:calc(100svh - clamp(120px,7vh,176px));padding:0 clamp(64px,4vw,144px) clamp(40px,3vh,80px);gap:clamp(28px,1.5vw,52px)}
+ .hero-image{width:100%}
+ .hero-content{width:min(2800px,84vw);max-width:none;padding:clamp(72px,5vh,128px) clamp(64px,4vw,144px) clamp(64px,4vh,112px);border-radius:clamp(32px,1.5vw,52px)}
+ .hero-content h1{font-size:clamp(144px,7vw,248px)}
+ .reading-reference.label{font-size:clamp(16px,.9vw,22px)}
+ .hebrew-title{font-size:clamp(68px,3.6vw,104px)}
+ .essence{max-width:1450px;margin-top:clamp(48px,2.5vw,88px)}
+ .essence .label{font-size:clamp(14px,.65vw,20px)}
+ .essence p{font-size:clamp(34px,1.35vw,52px);line-height:1.5;padding-left:clamp(24px,1.5vw,44px)}
+ .brand{gap:clamp(12px,.8vw,24px)}
+ .brand .menorah{width:clamp(48px,2.4vw,72px);height:clamp(48px,2.4vw,72px)}
+ .brand span{font-size:clamp(1rem,1.15vw,1.8rem)}
+ .archive-trigger{width:clamp(56px,3vw,76px);height:clamp(56px,3vw,76px);min-height:0;padding:0}
+ .archive-trigger svg{width:clamp(26px,1.25vw,34px);height:clamp(26px,1.25vw,34px)}
+ .reader{width:min(2000px,92vw);max-width:92vw}
+ .reader-toolbar{padding:clamp(22px,1.5vw,36px) clamp(40px,4vw,88px)}
+ .reader-toolbar h2{font-size:clamp(2rem,1.8vw,3.2rem)}
+ .reader .article-shell{padding:clamp(5rem,4vw,8rem) clamp(64px,9vw,220px)}
+ .reader .prose{max-width:1120px;font-size:clamp(1.35rem,1vw,1.8rem)}
+ .reader .prose>p:first-child{font-size:clamp(1.8rem,1.3vw,2.3rem)}
+ .reader .prose h2{font-size:clamp(2.5rem,2vw,3.4rem)}
+ .drawer{width:min(700px,42vw);max-width:700px}
+ .drawer-head h2{font-size:clamp(3rem,2.3vw,4.2rem)}
+ .current-link>span:nth-child(2),.archive-books strong{font-size:clamp(1.5rem,1.1vw,2rem)}
+}
