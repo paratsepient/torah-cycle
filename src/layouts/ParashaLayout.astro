@@ -38,10 +38,28 @@ const heroSizes = heroSrcset ? '(max-width: 760px) 100vw, 72vw' : undefined;
  const reader = document.querySelector<HTMLDialogElement>('#reader')!;
  if(reader){
  const openers = document.querySelectorAll<HTMLAnchorElement>('[data-open-reading],.skip-link');
+  const hero = document.querySelector<HTMLElement>('.hero');
  let pushedReading = false;
  let returnFocus: HTMLElement | null = null;
  function openReader(){if(reader.open)return;returnFocus=document.activeElement as HTMLElement;reader.showModal();document.body.classList.add('reader-open');}
- openers.forEach(el=>el.addEventListener('click',event=>{event.preventDefault();if(location.hash!=='#reading'){history.pushState({reading:true},'', '#reading');pushedReading=true;}openReader();}));
+  function activateReading(){if(reader.open)return;if(location.hash!=='#reading'){history.pushState({reading:true},'', '#reading');pushedReading=true;}openReader();}
+  openers.forEach(el=>el.addEventListener('click',event=>{event.preventDefault();activateReading();}));
+  let swipeStart:{x:number;y:number}|null=null;
+  hero?.addEventListener('touchstart',event=>{
+   if(matchMedia('(min-width: 761px)').matches||reader.open||event.touches.length!==1){swipeStart=null;return;}
+   const target=event.target;
+   if(target instanceof Element&&target.closest('a:not([data-open-reading]),button,summary,[role="button"],input,select,textarea')){swipeStart=null;return;}
+   const touch=event.touches[0];swipeStart={x:touch.clientX,y:touch.clientY};
+  },{passive:true});
+  hero?.addEventListener('touchend',event=>{
+   if(!swipeStart||reader.open){swipeStart=null;return;}
+   const touch=event.changedTouches[0];
+   const deltaX=touch.clientX-swipeStart.x;
+   const deltaY=touch.clientY-swipeStart.y;
+   swipeStart=null;
+   if(deltaY<=-72&&Math.abs(deltaY)>Math.abs(deltaX)*1.35)activateReading();
+  },{passive:true});
+  hero?.addEventListener('touchcancel',()=>{swipeStart=null;},{passive:true});
  function closeReader(){if(location.hash==='#reading' && pushedReading)history.back();else{if(location.hash==='#reading')history.replaceState(null,'',location.pathname+location.search);reader.close();}}
  reader.querySelector('a[href="#top"]')?.addEventListener('click',event=>{event.preventDefault();reader.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});
  reader.querySelector('.reader-close')?.addEventListener('click',closeReader);

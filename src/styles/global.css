@@ -93,7 +93,7 @@ body.reader-open{overflow:hidden}.brand .menorah{width:30px;height:36px;color:va
 
 /* Mobile title and a gold reflection across the glass card. */
 @media(max-width:760px){.hero h1{font-size:clamp(2.75rem,12.75vw,6rem)}}
-@media(max-width:760px){.title-copy{transform:translateY(20px)}.reading-reference{top:calc(100% - .5rem)}}
+@media(max-width:760px){.title-copy{transform:translateY(20px)}.reading-reference{top:calc(100% - .5rem);transform:translateX(2.75rem)}}
 @media(min-width:761px) and (max-width:1000px){.hero-content{width:100%;max-width:none}}
 .hero-content{isolation:isolate;transition:border-color .35s,box-shadow .35s}
 .hero-content::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 30%,#eacb8d08 40%,#fff1cb38 49%,#dcb66a18 55%,transparent 65%);background-size:250% 100%;background-position:100% 0;opacity:0}
